@@ -263,7 +263,7 @@ BUILTIN_SERVERS: list[McpServer] = [
         description="Read and write git operations — status, diff, log, add, commit, push, tag, branch, and more",
         homepage="https://github.com/modelcontextprotocol/servers/tree/main/src/git",
         type="local",
-        command=["npx", "-y", "@modelcontextprotocol/server-git", "--repository", "."],
+        command=["uvx", "mcp-server-git"],
         env_vars=[],
         tags=["git", "version-control", "vcs"],
     ),
