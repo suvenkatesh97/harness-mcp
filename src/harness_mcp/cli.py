@@ -51,6 +51,36 @@ def cli(harness, scope, cwd):
     ctx.obj["catalog"] = get_catalog()
 
 
+def _prompt_missing_env_vars(harness, catalog, server_ids, env_overrides):
+    """Prompt for required env vars that weren't provided via --env."""
+    for sid in server_ids:
+        server = catalog.get(sid)
+        if server is None or not server.env_vars:
+            continue
+
+        required_missing = [
+            ev for ev in server.env_vars
+            if ev.required and ev.name not in env_overrides
+        ]
+        if not required_missing:
+            continue
+
+        click.secho(f"\n{server.name} needs:", fg="cyan")
+        for ev in required_missing:
+            hide = any(kw in ev.name.upper()
+                       for kw in ("TOKEN", "KEY", "SECRET", "PASSWORD", "SECRETS", "API_KEY"))
+            value = click.prompt(
+                f"  {ev.name} ({ev.description})",
+                default=ev.default or "",
+                hide_input=hide,
+                show_default=False,
+            )
+            if value:
+                env_overrides[ev.name] = value
+            else:
+                env_overrides[ev.name] = harness.env_var_to_placeholder(ev.name)
+
+
 @cli.command("list")
 @click.pass_context
 def ls(ctx):
@@ -106,6 +136,8 @@ def add(ctx, servers, tag, env_vars, dry_run):
         if "=" in ev:
             key, value = ev.split("=", 1)
             env_overrides[key] = value
+
+    _prompt_missing_env_vars(harness, catalog, to_add, env_overrides)
 
     if dry_run:
         click.secho("[DRY RUN] Would add:", fg="yellow")

@@ -260,7 +260,9 @@ BUILTIN_SERVERS: list[McpServer] = [
     McpServer(
         id="git",
         name="Git",
-        description="Read and write git operations — status, diff, log, add, commit, push, tag, branch, and more",
+        description=(
+            "Git operations — status, diff, log, add, commit, push, tag, branch, checkout"
+        ),
         homepage="https://github.com/modelcontextprotocol/servers/tree/main/src/git",
         type="local",
         command=["uvx", "mcp-server-git"],
