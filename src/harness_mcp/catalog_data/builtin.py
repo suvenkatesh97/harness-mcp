@@ -257,4 +257,14 @@ BUILTIN_SERVERS: list[McpServer] = [
         ],
         tags=["search", "web", "google"],
     ),
+    McpServer(
+        id="git",
+        name="Git",
+        description="Read and write git operations — status, diff, log, add, commit, push, tag, branch, and more",
+        homepage="https://github.com/modelcontextprotocol/servers/tree/main/src/git",
+        type="local",
+        command=["npx", "-y", "@modelcontextprotocol/server-git", "--repository", "."],
+        env_vars=[],
+        tags=["git", "version-control", "vcs"],
+    ),
 ]
