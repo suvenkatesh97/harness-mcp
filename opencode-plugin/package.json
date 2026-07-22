@@ -1,0 +1,13 @@
+{
+  "name": "@harness-mcp/opencode-plugin",
+  "version": "0.1.0",
+  "description": "OpenCode plugin for harness-mcp: browse and add MCP servers from the catalog",
+  "type": "module",
+  "main": "index.js",
+  "keywords": ["opencode", "mcp", "plugin", "harness-mcp"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/suvenkatesh97/harness-mcp"
+  }
+}
