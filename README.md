@@ -2,11 +2,25 @@
 
 Add high-quality MCP servers to any AI harness. Start with OpenCode, extend to Claude Code, Cursor, and more.
 
+## Install
+
+```bash
+# Python (pip)
+pip install harness-mcp
+
+# Node.js (npm) — auto-installs Python deps
+npm install -g harness-mcp
+
+# Node.js (npx) — no install
+npx harness-mcp list
+
+# Single binary (no Python needed)
+# Download from: https://github.com/suvenkatesh97/harness-mcp/releases
+```
+
 ## Quick Start
 
 ```bash
-pip install harness-mcp
-
 # See what's available
 harness-mcp list
 
