@@ -34,13 +34,24 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyinstaller
           pip install -e ".[yaml]"
+        shell: bash
 
-      - name: Build binary
+      - name: Build binary (Linux/macOS)
+        if: runner.os != 'Windows'
         run: |
           pyinstaller --onefile \
             --name ${{ matrix.artifact }} \
             --add-data "src/harness_mcp/catalog_data:harness_mcp/catalog_data" \
             --hidden-import yaml \
+            src/harness_mcp/cli.py
+
+      - name: Build binary (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          pyinstaller --onefile `
+            --name ${{ matrix.artifact }} `
+            --add-data "src/harness_mcp/catalog_data;harness_mcp/catalog_data" `
+            --hidden-import yaml `
             src/harness_mcp/cli.py
 
       - name: Upload artifact
