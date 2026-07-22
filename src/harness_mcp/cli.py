@@ -114,12 +114,18 @@ def ls(ctx):
 @click.option("--tag", default=None, help="Add all servers with this tag")
 @click.option("--env", "-e", "env_vars", multiple=True, help="Environment variables (KEY=VALUE)")
 @click.option("--dry-run", is_flag=True, help="Show what would be added without writing")
+@click.option(
+    "--scope",
+    default=None,
+    type=click.Choice(["project", "global"]),
+    help="Where to write config (project or global)",
+)
 @click.pass_context
-def add(ctx, servers, tag, env_vars, dry_run):
+def add(ctx, servers, tag, env_vars, dry_run, scope):
     """Add one or more MCP servers to your harness config."""
     harness = ctx.obj["harness"]
     catalog = ctx.obj["catalog"]
-    scope = ctx.obj["scope"]
+    scope = scope or ctx.obj["scope"]
     cwd = ctx.obj["cwd"]
 
     to_add = list(servers)
@@ -171,11 +177,17 @@ def add(ctx, servers, tag, env_vars, dry_run):
 @cli.command()
 @click.argument("servers", nargs=-1, required=True)
 @click.option("--dry-run", is_flag=True, help="Show what would be removed without writing")
+@click.option(
+    "--scope",
+    default=None,
+    type=click.Choice(["project", "global"]),
+    help="Where to write config (project or global)",
+)
 @click.pass_context
-def remove(ctx, servers, dry_run):
+def remove(ctx, servers, dry_run, scope):
     """Remove one or more MCP servers from your harness config."""
     harness = ctx.obj["harness"]
-    scope = ctx.obj["scope"]
+    scope = scope or ctx.obj["scope"]
     cwd = ctx.obj["cwd"]
 
     if dry_run:
@@ -199,11 +211,17 @@ def remove(ctx, servers, dry_run):
 
 
 @cli.command()
+@click.option(
+    "--scope",
+    default=None,
+    type=click.Choice(["project", "global"]),
+    help="Where to write config (project or global)",
+)
 @click.pass_context
-def status(ctx):
+def status(ctx, scope):
     """Show currently configured MCP servers."""
     harness = ctx.obj["harness"]
-    scope = ctx.obj["scope"]
+    scope = scope or ctx.obj["scope"]
     cwd = ctx.obj["cwd"]
 
     result = get_status(harness, scope=scope, cwd=cwd)
