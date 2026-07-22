@@ -33,12 +33,35 @@ harness-mcp add github playwright brave-search
 # Add all with a tag
 harness-mcp add --tag browser
 
+# Add with required env vars (will prompt interactively)
+harness-mcp add slack
+
+# Pass env vars for scripting
+harness-mcp add slack --env SLACK_BOT_TOKEN=xoxb-your-token
+
 # See what's configured
 harness-mcp status
 
 # Remove a server
 harness-mcp remove github
 ```
+
+## Scope — Project vs Global
+
+`--scope` controls where servers are written. Place it before or after the command:
+
+```bash
+# Project-scoped config (default) — ./opencode.jsonc
+harness-mcp add docker
+
+# Global config — ~/.config/opencode/opencode.json
+harness-mcp --scope global add docker
+
+# Also works after the command
+harness-mcp status --scope global
+```
+
+Run `harness-mcp status` to see which config is in use.
 
 ## Harness Support
 
@@ -60,11 +83,13 @@ harness-mcp init
 | Command | Description |
 |---------|-------------|
 | `list` | Browse the MCP server catalog |
-| `add <names...>` | Add servers by name or tag |
+| `add <names...>` | Add servers by name or tag. Prompts for required env vars. |
 | `remove <names...>` | Remove servers from config |
 | `status` | Show configured MCP servers |
-| `search <query>` | Search the catalog |
-| `init` | Interactive selection wizard |
+| `search <query>` | Search the catalog by name, description, or tag |
+| `init` | Interactive selection wizard (needs `[interactive]`) |
+
+All commands support `--scope project|global` to choose where config is written.
 
 ## Global Flags
 
@@ -116,6 +141,7 @@ Then ask OpenCode to `use harness_mcp_list` or `use harness_mcp_add to add githu
 |--------|------|----------|
 | GitHub | local | git, code-review |
 | Filesystem | local | files, system |
+| Git | local | git, version-control |
 | Playwright | local | browser, testing |
 | Brave Search | local | search, web |
 | Memory | local | knowledge, persistence |
