@@ -1,27 +1,22 @@
 #!/usr/bin/env node
 
-import { execSync } from "child_process"
+// Pre-download the binary during npm install so it's ready at runtime.
+// This avoids a network request on first `npx harness-mcp`.
 
-const python = (() => {
-  try {
-    execSync("which python3", { stdio: "ignore" })
-    return "python3"
-  } catch {
-    return "python"
-  }
-})()
+import { spawnSync } from "child_process";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const runner = join(__dirname, "harness-mcp.js");
+
+process.env.HARNESS_MCP_INSTALL_ONLY = "1";
 
 try {
-  execSync(`${python} -c "import harness_mcp"`, { stdio: "ignore" })
-  console.log("[harness-mcp] Python package already installed.")
+  spawnSync(process.execPath, [runner], {
+    stdio: "ignore",
+    cwd: process.cwd(),
+  });
 } catch {
-  console.log("[harness-mcp] Installing Python dependencies...")
-  try {
-    execSync(`${python} -m pip install harness-mcp`, { stdio: "inherit" })
-    console.log("[harness-mcp] Installed successfully!")
-  } catch {
-    console.error("[harness-mcp] Could not auto-install Python package.")
-    console.error("Run: pip install harness-mcp")
-    console.error("Or: python3 -m pip install harness-mcp")
-  }
+  // Silently ignore — binary will be downloaded on first run
 }

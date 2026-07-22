@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import sys
 from pathlib import Path
 
@@ -16,7 +14,7 @@ from harness_mcp.core import (
 )
 
 
-@click.group()
+@click.group(invoke_without_command=False)
 @click.version_option(__version__, prog_name="harness-mcp")
 @click.option(
     "--harness",
@@ -30,8 +28,8 @@ from harness_mcp.core import (
     help="Where to write config (project or global)",
 )
 @click.option("--cwd", default=None, help="Working directory for project-scoped config")
-@click.pass_context
-def cli(ctx, harness, scope, cwd):
+def cli(harness, scope, cwd):
+    ctx = click.get_current_context()
     cwd_path = Path(cwd) if cwd else Path.cwd()
     ctx.ensure_object(dict)
     ctx.obj["harness_name"] = harness
@@ -53,9 +51,9 @@ def cli(ctx, harness, scope, cwd):
     ctx.obj["catalog"] = get_catalog()
 
 
-@cli.command()
+@cli.command("list")
 @click.pass_context
-def list(ctx):
+def ls(ctx):
     """List all available MCP servers in the catalog."""
     catalog = ctx.obj["catalog"]
     servers = catalog.all()
@@ -332,7 +330,7 @@ def init(ctx, harness, scope):
 
 
 def main():
-    cli(obj={})
+    cli()
 
 
 if __name__ == "__main__":
