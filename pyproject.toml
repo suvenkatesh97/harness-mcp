@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "harness-mcp"
-version = "0.1.1"
+version = "0.1.2"
 description = "Add high-quality MCP servers to any AI harness — opencode, claude code, cursor, and more"
 readme = "README.md"
 license = {text = "MIT"}
@@ -25,6 +25,7 @@ classifiers = [
 
 dependencies = [
     "click>=8",
+    "json5>=0.9",
 ]
 
 [project.optional-dependencies]

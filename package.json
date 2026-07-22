@@ -1,6 +1,6 @@
 {
   "name": "harness-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Add high-quality MCP servers to any AI harness — opencode, claude code, cursor, and more",
   "keywords": ["mcp", "ai", "opencode", "claude", "cursor", "harness", "model-context-protocol"],
   "license": "MIT",

@@ -7,7 +7,7 @@ import { join } from "path";
 import { Readable } from "stream";
 import { finished } from "stream/promises";
 
-const VERSION = "0.1.1";
+const VERSION = "0.1.2";
 const REPO = "suvenkatesh97/harness-mcp";
 
 function getPlatform() {
